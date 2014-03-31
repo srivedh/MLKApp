@@ -17,6 +17,14 @@
   <div data-role=content>
     <p> Window content 1</p>
     <a id="showMap" data-role=button> Goto map </a>
+    <a id="showPopUp" href="#myPopup" data-rel="popup" data-role=button> show popup</a>
+    
+    <div data-role="popup" id="myPopup" class="ui-content"> 
+    <p><img src="images/pin.jpg" height="16"/>&nbsp;&nbsp;Tap on a pin to find King services and locations</p>
+    <p><img src="images/info.jpg" height="16"/>&nbsp;&nbsp;Learn more about this part of the library</p>
+    <div data-role=button id="PopupOKBtn">OK</div>
+		</div>
+    
   </div>
 </div>
 
@@ -47,5 +55,10 @@ $content.height(screen.height);
 $content.width(screen.width);
 var map = new google.maps.Map($content[0], options);
 $.mobile.changePage($("#win2"));
+});
+
+$('#PopupOKBtn').bind("click", function(event)
+{
+	$('#myPopup').popup("close");
 });
 </script>
