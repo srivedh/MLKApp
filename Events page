@@ -1,0 +1,64 @@
+<html> 
+<head> 
+  <meta name=viewport content="user-scalable=no,width=device-width" />
+  <link rel=stylesheet href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+</head> 
+
+<body> 
+
+<div data-role=page id=win1>
+  <div data-role=header>
+    <h1>Window 1</h1>
+  </div>
+
+  <div data-role=content>
+    <p> Window content 1</p>
+    <a id="loadEvts" data-role=button> Get events </a>
+    
+  </div>
+</div>
+
+<div data-role=page id=win2 data-add-back-btn=true>
+  <div data-role=header>
+    <h1>Events</h1>
+  </div>
+
+  <div data-role=content>
+    <p> Events</p>
+  </div>
+</div>
+
+</body>
+</html>
+<script>
+
+$("#loadEvts").bind("click",function(event)
+{ 
+   var eventList = GetEvents();
+   var tableHTML = "<div class=ui-grid-a>";
+   for(var i = 0; i<eventList.length; i++)
+   {
+	   tableHTML+= "<div class='ui-block-a'>"+eventList[i].name+"</div><div class='ui-block-b'>"+eventList[i].description+"</div>";
+   }
+   tableHTML+="</div>";
+   $("#win2 div:jqmData(role=content)").append(tableHTML);
+   
+$.mobile.changePage($("#win2"));
+});
+function GetEvents()
+{
+	var eventList = new Array();
+   
+   for(var i = 0; i<10; i++)
+   {
+	   var evt = {name: "Event"+(i+1),
+	              description: "Description" +(i+1)};
+	   eventList[i] = evt;
+   }
+   return eventList;
+}
+
+</script>
