@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MLK Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
+  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+</head>
+<body>
+
+<div data-role="page" id="homePage">
+
+    <div data-role="header">
+        <h1>Welcome to the King Library</h1>
+
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#">Locations</a></li>
+                <li><a href="#">Services</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="content">
+		<div id = "mapDiv"></div>
+		<div data-role="popup" id="myPopup" class="ui-content"> 
+			<p><img src="images/pin.jpg" height="16"/>&nbsp;&nbsp;Tap on a pin to find King services and locations</p>
+			<p><img src="images/info.jpg" height="16"/>&nbsp;&nbsp;Learn more about this part of the library</p>
+			<div data-role=button id="PopupOKBtn">OK</div>
+		</div>
+    </div>
+     
+    <div data-role="footer" data-id="foo1" data-position="fixed">
+        <div class="ui-grid-d center" data-role="navbar">
+            <ul>
+                <li><a href="#">King Library</a></li>
+                <li><a id="evtsBtn" href="#">Events</a></li>
+                <li><a href="#">Menu</a></li>
+                <li><a href="#">Map</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div data-role=page id="EvtsPage" data-add-back-btn=true>
+  <div data-role="header">
+        <h1>Welcome to the King Library</h1>
+
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#">Locations</a></li>
+                <li><a href="#">Services</a></li>
+            </ul>
+        </div>
+    </div>
+
+  <div data-role=content>
+    <p> Events</p>
+  </div>
+  <div data-role="footer" data-id="foo1" data-position="fixed">
+        <div class="ui-grid-d center" data-role="navbar">
+            <ul>
+                <li><a href="#">King Library</a></li>
+                <li><a id="evtsBtn" href="#">Events</a></li>
+                <li><a href="#">Menu</a></li>
+                <li><a href="#">Map</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+<script>
+
+
+$('#PopupOKBtn').bind("click", function(event)
+{
+	$('#myPopup').popup("close");
+});
+$("#homePage").bind("pagebeforeshow",function(){
+	$('#myPopup').popup("open");
+});
+function LoadMap(){
+	var lat = 37.3359622;
+	var longitude = -121.8878356;
+	var latlong = new google.maps.LatLng(lat, longitude);
+	var options = { zoom:15,
+					center: latlong,
+					//mapTypeId: google.maps.MapTypeId.ROADMAP
+					};
+	var $content = $("#mapDiv");
+	$content.height(350);
+	var map = new google.maps.Map($content[0], options);
+}
+$("#evtsBtn").bind("click",function(event)
+{ 
+   var eventList = GetEvents();
+   var tableHTML = "<div class=ui-grid-a>";
+   for(var i = 0; i<eventList.length; i++)
+   {
+	   var lastClass = i==eventList.length-1?"last":"";
+	   tableHTML+= "<div class='ui-block-a "+lastClass+"'>"+eventList[i].name+"</div><div class='ui-block-b "+lastClass+"'>"+eventList[i].description+"</div>";
+   }
+   tableHTML+="</div>";
+   $("#EvtsPage div:jqmData(role=content)").append(tableHTML);
+   
+$.mobile.changePage($("#EvtsPage"));
+});
+function GetEvents()
+{
+	var eventList = new Array();
+   
+   for(var i = 0; i<10; i++)
+   {
+	   var evt = {name: "Event"+(i+1),
+	              description: "Description" +(i+1)};
+	   eventList[i] = evt;
+   }
+   return eventList;
+}
+
+$("#homePage").live( "pageshow", function( e ){
+	LoadMap();
+}); 
+</script>
