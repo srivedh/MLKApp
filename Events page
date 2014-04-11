@@ -1,13 +1,29 @@
-<html> 
-<head> 
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title>PhoneGap</title>
+  <script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
   <meta name=viewport content="user-scalable=no,width=device-width" />
   <link rel=stylesheet href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
   <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-</head> 
-
-<body> 
+<style>
+	.ui-block-a{
+		  border: 1px solid #000;
+		  border-bottom-style: none;
+		  border-right-style: none;
+	  }
+	  .ui-block-b{
+		  border: 1px solid #000;
+		  border-bottom-style: none;
+	  }
+	  .last{
+		  border-bottom-style:solid;
+	  }
+</style>
+ </head>
+ <body> 
 
 <div data-role=page id=win1>
   <div data-role=header>
@@ -24,6 +40,7 @@
 <div data-role=page id=win2 data-add-back-btn=true>
   <div data-role=header>
     <h1>Events</h1>
+    <div id="temptest"></div>
   </div>
 
   <div data-role=content>
@@ -37,28 +54,56 @@
 
 $("#loadEvts").bind("click",function(event)
 { 
-   var eventList = GetEvents();
+/*var eventList = GetEvents();
    var tableHTML = "<div class=ui-grid-a>";
    for(var i = 0; i<eventList.length; i++)
    {
-	   tableHTML+= "<div class='ui-block-a'>"+eventList[i].name+"</div><div class='ui-block-b'>"+eventList[i].description+"</div>";
+	   var lastClass = i==eventList.length-1?"last":"";
+	   tableHTML+= "<div class='ui-block-a "+lastClass+"'>"+eventList[i].name+"</div><div class='ui-block-b "+lastClass+"'>"+eventList[i].description+"</div>";
+   }
+   tableHTML+="</div>";
+   $("#win2 div:jqmData(role=content)").append(tableHTML);
+   */
+   GetEvents();
+});
+function PopulateEvents(eventList)
+{
+	 var tableHTML = "<div class=ui-grid-a>";
+   for(var i = 0; i<eventList.length; i++)
+   {
+	   var lastClass = i==eventList.length-1?"last":"";
+	   tableHTML+= "<div class='ui-block-a "+lastClass+"'>"+eventList[i].name+"</div><div class='ui-block-b "+lastClass+"'>"+eventList[i].description+"</div>";
    }
    tableHTML+="</div>";
    $("#win2 div:jqmData(role=content)").append(tableHTML);
    
 $.mobile.changePage($("#win2"));
-});
+}
 function GetEvents()
 {
-	var eventList = new Array();
-   
-   for(var i = 0; i<10; i++)
-   {
-	   var evt = {name: "Event"+(i+1),
-	              description: "Description" +(i+1)};
-	   eventList[i] = evt;
-   }
-   return eventList;
+	$.ajax({
+		type: 'POST',
+		url: "http://library.sjsu.edu/events/events-feed",
+		dataType: 'xml',
+		crossDomain: true,
+		success: function(res)
+		{
+			var eventList = new Array();
+			var i = 0;
+			var $xml = $(res);
+			$xml.find("item").each(function(){
+				var $this = $(this),
+				item = {name: $this.find("title").text(),
+				        description: $this.find("description").text()
+					};
+				eventList[i] = item;
+				i++;
+			});
+			PopulateEvents(eventList);
+		}
+	}); 
+	
 }
+
 
 </script>
