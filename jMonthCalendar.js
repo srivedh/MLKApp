@@ -20,7 +20,7 @@
 	var calendarEvents;
 	var defaults = {
 			//height: 300,
-			width: 100,
+			//width: 100,
 			navHeight: 15,
 			labelHeight: 15,
 			firstDayOfWeek: 0,
@@ -125,14 +125,14 @@
 		
 		// Create Previous Month link for later
 		var prevMonth = d.getMonth() == 0 ? new Date(d.getFullYear()-1, 11, 1) : new Date(d.getFullYear(), d.getMonth()-1, 1);
-		var prevMLink = jQuery('<div class="MonthNavPrev"><a href="" class="link-prev">'+ defaults.navLinks.p +'</a></div>&nbsp;&nbsp;&nbsp;|').click(function() {
+		var prevMLink = jQuery('<span class="MonthNavPrev"><a href="" class="link-prev">'+ defaults.navLinks.p +'</a></span>').click(function() {
 			jQuery.J.ChangeMonth(prevMonth);
 			return false;
 		});
 		
 		//Create Next Month link for later
 		var nextMonth = d.getMonth() == 11 ? new Date(d.getFullYear()+1, 0, 1) : new Date(d.getFullYear(), d.getMonth()+1, 1);
-		var nextMLink = jQuery('<div class="MonthNavNext"><a href="" class="link-next">'+ defaults.navLinks.n +'</a></div>&nbsp;&nbsp;&nbsp;').click(function() {
+		var nextMLink = jQuery('<span style="margin-left:2px;" class="MonthNavNext"><a href="" class="link-next">'+ defaults.navLinks.n +'</a></span>').click(function() {
 			jQuery.J.ChangeMonth(nextMonth);
 			return false;
 		});
@@ -160,7 +160,7 @@
 		var todayLink;
 		if(defaults.navLinks.enableToday) {
 			//Create Today link for later
-			todayLink = jQuery('<div class="TodayLink"><a href="" class="link-today">'+ defaults.navLinks.t +'</a></div>').click(function() {
+			todayLink = jQuery('<span style="margin-left:2px;" class="TodayLink"><a href="" class="link-today">'+ defaults.navLinks.t +'</a></span>').click(function() {
 				jQuery.J.ChangeMonth(new Date());
 				return false;
 			});
@@ -187,7 +187,7 @@
 		for (var i=defaults.firstDayOfWeek; i<defaults.firstDayOfWeek+7; i++) {
 			var weekday = i%7;
 			var wordday = defaults.locale.daysShort[weekday];
-			headRow.append('<th title="' + wordday + '" class="DateHeader' + (weekday == 0 || weekday == 6 ? ' Weekend' : '') + '"><span>' + wordday + '</span></th>');
+			headRow.append('<th style="width:14%;" title="' + wordday + '" class="DateHeader' + (weekday == 0 || weekday == 6 ? ' Weekend' : '') + '"><span>' + wordday + '</span></th>');
 		}
 		
 		headRow = jQuery("<thead id=\"CalendarHead\"></thead>").append(headRow);
@@ -287,7 +287,7 @@
 
 
 		var a = jQuery(ids.container).css({ "width" : defaults.width + "px", "height" : defaults.height + "px" });
-		var cal = jQuery('<table class="MonthlyCalendar" cellpadding="0" tablespacing="0"></table>').append(headRow, tBody);
+		var cal = jQuery('<table style="width:100%;" class="MonthlyCalendar" cellpadding="0" tablespacing="0"></table>').append(headRow, tBody);
 		
 		a.hide();
 		a.html(cal);		
@@ -331,7 +331,7 @@
 					if ((sDt >= _beginDate) && (sDt <= _endDate)) {			
 						var cell = jQuery("#" + getDateId(sDt), jQuery(ids.container));
 						var label = jQuery(".DateLabel", cell);
-						var displayTitle = ev.Title.length > 25? ev.Title.substring(0,25)+" ...":ev.Title;
+						var displayTitle = ev.Title.length > 15? ev.Title.substring(0,15)+" ...":ev.Title;
 						var link = jQuery('<a>' + displayTitle + '</a>');
 						
 						link.click(function(e) {
