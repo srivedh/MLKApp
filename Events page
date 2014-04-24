@@ -38,7 +38,7 @@ border: 1px solid lightgray;
   <div id="evtsTable">
   events table</div>
   </div>
-  <a data-role=button id="toggleEvtsVw" class="table">Show calendar view</a>
+  <a data-role=button id="toggleEvtsVw" class="table"><span id="btnTxt">Show calendar view</span></a>
   <div data-role=popup id='calPopup' data-position-to="origin" class="ui-content"></div>
 </div>
 
@@ -64,7 +64,7 @@ $("#toggleEvtsVw").bind("click",function(event)
 		{
 			toggleBtn.removeClass("table");
 			toggleBtn.addClass("cal");
-			toggleBtn.html("Show table");
+			$("#btnTxt").html("Show table view");
 			$("#jMonthCalendar").show();
 			$("#evtsTable").hide();
 		}
@@ -72,7 +72,7 @@ $("#toggleEvtsVw").bind("click",function(event)
 		{
 			toggleBtn.removeClass("cal");
 			toggleBtn.addClass("table");
-			toggleBtn.html("Show calendar view");
+			$("#btnTxt").html("Show calendar view");
 			$("#jMonthCalendar").hide();
 			$("#evtsTable").show();
 		}
