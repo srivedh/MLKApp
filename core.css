@@ -7,7 +7,7 @@ a { font-size:9px; }
 .MonthlyCalendar .MonthNavigation { border-bottom:solid 1px #ddd; clear:both; height:20px; padding:5px 10px 0 10px; }
 .MonthlyCalendar .MonthNavPrev, .MonthlyCalendar .MonthNavNext, .MonthlyCalendar .TodayLink {  float:left; }
 .MonthlyCalendar .YearNavNext, .MonthlyCalendar .YearNavPrev { width:10%; float:right; }
-.MonthlyCalendar .MonthName { /*width:59%;*/ text-align:center; font-weight:normal; float:left; }
+.MonthlyCalendar .MonthName { /*width:59%;*/ text-align:center; font-weight:normal; float:left; margin-left: 25px; }
 
 
 .MonthlyCalendar { height:100%; width:100%; border:solid 1px #ddd; border-collapse:collapse; }
